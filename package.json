@@ -1,0 +1,85 @@
+{
+  "name": "jscibox",
+  "description": "Basic single-file package for demonstrating useful JavaScript CI techniques",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Brian Kirkpatrick <code@tythos.net>",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "docs": "node -e \"let pkg = require('./package.json'); pkg['.jsdoc-conf']['templates']['systemName'] = pkg['name']; pkg['.jsdoc-conf']['templates']['systemSummary'] = pkg['description']; pkg['.jsdoc-conf']['templates']['copyright'] = pkg['license']; console.log(JSON.stringify(pkg['.jsdoc-conf']))\" > .jsdoc-conf.json & jsdoc -R ./README.md -c ./.jsdoc-conf.json -t ./node_modules/foodoc/template ./index.mjs",
+    "test": "node -e \"console.log(JSON.stringify(require('./package.json')['.jasmine-conf']))\" > .jasmine-conf.json & node -e \"console.log(require('./package.json')['.jasmine-tests'].join('\\n'))\" > .jasmine-tests.js & jasmine --config=.jasmine-conf.json",
+    "coverage": "node -e \"console.log(JSON.stringify(require('./package.json')['.c8-conf']))\" > .c8rc.json & c8 yarn run test"
+  },
+  "devDependencies": {
+    "c8": "7.12",
+    "foodoc": "^0.0.9",
+    "jasmine": "4.4",
+    "jasmine-reporters": "2.5",
+    "jsdoc": "3.6",
+    "semver": "^7.3.8",
+    "terser": "5.15"
+  },
+  ".jsdoc-conf": {
+    "recurseDepth": 3,
+    "source": {
+      "includePattern": ".+\\.mjs$",
+      "exclude": [
+        "node_modules"
+      ]
+    },
+    "tags": {
+      "dictionaries": [
+        "jsdoc"
+      ]
+    },
+    "templates": {
+      "systemName": "",
+      "systemSummary": "",
+      "monospaceLinks": true,
+      "default": {
+        "outputSourceFiles": false,
+        "useLongnameInNav": true
+      },
+      "copyright": ""
+    },
+    "plugins": [
+      "plugins/markdown"
+    ]
+  },
+  ".jasmine-tests": [
+    "import { JUnitXmlReporter } from \"jasmine-reporters\";",
+    "import index from \"./index.mjs\";",
+    "const junitReporter = new JUnitXmlReporter({ \"consolidateAll\": true });",
+    "jasmine.getEnv().addReporter(junitReporter);",
+    "describe(\"thismodule\", () => {",
+    " Object.keys(index.__tests__).forEach(k => {",
+    "   it(k, index.__tests__[k]);",
+    " });",
+    "});"
+  ],
+  ".jasmine-conf": {
+    "spec_dir": ".",
+    "spec_files": [
+      ".jasmine-tests.js"
+    ],
+    "env": {
+      "stopSpecOnExpectationFailure": false,
+      "random": false
+    }
+  },
+  ".c8-conf": {
+    "exclude-after-remap": true,
+    "include": [
+      "index.mjs"
+    ],
+    "exclude": [
+      ".jasmine-tests.js"
+    ],
+    "reporter": [
+      "cobertura",
+      "text"
+    ]
+  },
+  "package_manager": "yarn@1.22.19"
+}
