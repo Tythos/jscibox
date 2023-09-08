@@ -8,7 +8,7 @@
   "type": "module",
   "scripts": {
     "docs": "node -e \"let pkg = require('./package.json'); pkg['.jsdoc-conf']['templates']['systemName'] = pkg['name']; pkg['.jsdoc-conf']['templates']['systemSummary'] = pkg['description']; pkg['.jsdoc-conf']['templates']['copyright'] = pkg['license']; console.log(JSON.stringify(pkg['.jsdoc-conf']))\" > .jsdoc-conf.json & jsdoc -R ./README.md -c ./.jsdoc-conf.json -t ./node_modules/foodoc/template ./index.mjs",
-    "test": "node -e \"console.log(JSON.stringify(require('./package.json')['.jasmine-conf']))\" > .jasmine-conf.json & node -e \"console.log(require('./package.json')['.jasmine-tests'].join('\\n'))\" > .jasmine-tests.js & jasmine --config=.jasmine-conf.json",
+    "test": "node -e \"console.log(JSON.stringify(require('./package.json')['.jasmine-conf']))\" > .jasmine-conf.json & node -e \"console.log(require('./package.json')['.jasmine-tests'].join('\\n'))\" > .jasmine-tests.mjs & jasmine --config=.jasmine-conf.json",
     "coverage": "node -e \"console.log(JSON.stringify(require('./package.json')['.c8-conf']))\" > .c8rc.json & c8 yarn run test"
   },
   "devDependencies": {
@@ -61,7 +61,7 @@
   ".jasmine-conf": {
     "spec_dir": ".",
     "spec_files": [
-      ".jasmine-tests.js"
+      ".jasmine-tests.mjs"
     ],
     "env": {
       "stopSpecOnExpectationFailure": false,
@@ -74,7 +74,7 @@
       "index.mjs"
     ],
     "exclude": [
-      ".jasmine-tests.js"
+      ".jasmine-tests.mjs"
     ],
     "reporter": [
       "cobertura",

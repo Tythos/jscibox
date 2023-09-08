@@ -1,0 +1,25 @@
+stages:
+  - docs_stage
+  - test_stage
+  - coverage_stage
+
+docs:
+  image: node
+  stage: docs_stage
+  script:
+    - yarn install
+    - yarn run docs
+
+test:
+  image: node
+  stage: test_stage
+  script:
+    - yarn install
+    - yarn run test
+
+coverage:
+  image: node
+  stage: coverage_stage
+  script:
+    - yarn install
+    - yarn run coverage
