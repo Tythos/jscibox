@@ -73,7 +73,7 @@ If successful we should see an `out/` folder generated, from which we can direct
 
 The CI job will simply yarn-install then yarn-run the "docs" script. We'll also want to make sure both the .jsdoc-conf.json file and "out/" folders are added to our `.gitignore` file. Finally, we can easily copy the contents of `out/` over to GitLab Pages hooks (if desired) for easy transcription to hosted/published HTML references.
 
-![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/4gai8kotq2xkkniankir.png)
+![Screenshot of VS code viewing the temporary generated JSDoc configuration file](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/4gai8kotq2xkkniankir.png)
 
 ## Jasmine
 
@@ -83,7 +83,7 @@ https://jasmine.github.io/setup/nodejs.html
 
 I actually write out two fields from package.json; one is the contents of the jasmine.json configuration file, and the other is actually a few boilerplate code of JavaScript for bootstrapping into the test cases within the index source code. You don't have to take an approach that follows this same technique, but just as I prefer to consolidate JSON into a single file, I much prefer to package test scripts into the module itself. Here's a basic example of the index source code that might use this approach.
 
-![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rl15i2cjh8plhewu61vp.png)
+![Screenshow of an embedded test case exported with module contents](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rl15i2cjh8plhewu61vp.png)
 
 To use this approach, we first add the boilerplate code to the `package.json` as ".jasmine-tests":
 
@@ -154,7 +154,7 @@ Once these three changes have been added, we can simply run the script from the 
 > yarn run test
 ```
 
-![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/mwipmxxs8zcv5ah5haf2.png)
+![Screenshot of VS code running tests via Jasmine while displaying the temporary generated jasmine configuration JSON](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/mwipmxxs8zcv5ah5haf2.png)
 
 ## C8
 
@@ -188,6 +188,7 @@ Here is the "coverage" script we add to our package.json:
   "scripts": {
     ...
     "coverage": "node -e \"console.log(JSON.stringify(require('./package.json')['.c8-conf']))\" > .c8rc.json & c8 yarn run test"
+  }
 ```
 
 By now you can probably interpret what we're doing:
@@ -203,13 +204,13 @@ yarn add -D c8
 yarn run coverage
 ```
 
-![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/oqrs7lkftoxf3mj1mndq.png)
+![Screenshot of VS Code running coverage against the displayed c8 configuration JSON](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/oqrs7lkftoxf3mj1mndq.png)
 
 ## Conclusion
 
 There are a lot of other easy ways to hook in CI jobs for modest JavaScript packages:
 
-![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/17sk55qv5395arvmbqo8.png)
+![Screenshot of 7 Easy GitLab CI Jobs for ES6-Compatible JavaScript](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/17sk55qv5395arvmbqo8.png)
 
 But just focusing on these cases reduces the "meta-files" population from 9 to 5 by eliminating:
 
@@ -225,7 +226,11 @@ But it's a little convoluted when you look at the "scripts" definitions. Is this
 
 In my opinion, *yes*. "How can you get the most from the least?" is a good guiding principle, I think.
 
-You see, it makes me very nervous when we have multiple sources of truth for things like test configuration, package descriptions, etc. There is always a possibility that these truths will diverge, with obvious implications for authoritative values. We also incentivize CI rollout when we can streamline the template new JavaScript packages and developers need to leverage. And lastly, of course, for those of us with strong OCD tendencies, we can simply track fewer files for straightforward package contents (not to mention get a satisfactory `git clean -Xfd` when we want to remove them after verification).
+You see, it also makes me very nervous when we have multiple sources of truth for things like test configuration, package descriptions, etc. There is always a possibility that these truths will diverge, with obvious implications for authoritative values. We also incentivize CI rollout when we can streamline the template new JavaScript packages and developers need to leverage. And lastly, of course, for those of us with strong OCD tendencies, we can simply track fewer files for straightforward package contents (not to mention get a satisfactory `git clean -Xfd` when we want to remove them after verification).
+
+And after all, doesn't this look better?
+
+![From 9 meta-files to 5](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/79gwkqtbb1y4n5jg7hof.png)
 
 To be fair, there's a lot more that you *could* include. Babel inputs, transpiling configuration, deployment or higher-level testing structures, and minification/obfuscation inputs are all great candidates. But these approaches won't vary too much from the examples we've seen here.
 
@@ -233,7 +238,7 @@ To be fair, there's a lot more that you *could* include. Babel inputs, transpili
 
 This article is hosted on dev.to at:
 
-https://dev.to/tythos/give-me-a-json-vasili-one-json-only-please-2dj7
+https://dev.to/tythos/give-me-a-json-vasili-one-json-only-please-3kli
 
 The source repository can be referenced on GitHub at:
 
